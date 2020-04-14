@@ -28,11 +28,9 @@ router.post('/', (req, res) => {
 // @description Delete Item
 // @access Public
 router.delete('/:id', (req, res) => {
-    const newItem = new Item({
-        name: req.body.name
-    })
-
-    newItem.save().then(item=>res.json(item))
+    Item.findById(req.params.id)
+        .then(item => item.remove().then(()=>res.json("item deleted")))
+        .catch(err=>res.status(404).json({success: false}))
 })
 
 module.exports = router
